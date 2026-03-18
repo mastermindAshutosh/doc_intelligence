@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git
+.env
+tests/
+wandb/
+
+# 🔥 critical
+.venv/
+venv/
+.cache/
+*.pt
+*.bin
+*.model
+data/
+models/
+notebooks/
