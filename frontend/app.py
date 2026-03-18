@@ -3,8 +3,8 @@ import requests
 import json
 from datetime import datetime
 
-# Configure API URL
-API_URL = "http://backend:8000"
+# Configure API URL (Use Streamlit Secrets for deployments, fallback to local docker address)
+API_URL = st.secrets.get("API_URL", "http://backend:8000")
 
 st.set_page_config(
     page_title="Document Intelligence Dashboard",
