@@ -2,25 +2,38 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
+# ✅ Install only required system deps
 RUN apt-get update && apt-get install -y \
     build-essential \
     poppler-utils \
     tesseract-ocr \
     libgl1 \
+    libjpeg-dev \
+    zlib1g-dev \
+    libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies first (cache layer)
+# ✅ Upgrade pip
+RUN pip install --upgrade pip
+
+# ✅ Install CPU-only PyTorch FIRST (critical fix)
+RUN pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
+
+# ✅ Copy dependency file
 COPY pyproject.toml /app/
-RUN pip install --upgrade pip && pip install .
 
-# 🔥 Preload model (critical fix)
+# ✅ Install project deps (without reinstalling torch)
+RUN pip install . --no-deps
+
+# 🔥 Preload model (keeps cold start lower)
 RUN python -c "from transformers import AutoTokenizer, AutoModel; \
-    AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L6-v2'); \
-    AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')"
+AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L6-v2'); \
+AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')"
 
-# Copy full project
+# ✅ Copy source code
 COPY . /app/
 
 EXPOSE 8000
