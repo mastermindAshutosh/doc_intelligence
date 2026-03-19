@@ -19,8 +19,8 @@ dependencies = [
     # ⚠️ keep ONLY if you really use graph model
     "torch-geometric>=2.5",
 
-    "sentence-transformers>=3.0",
-    "transformers>=4.41",
+    "sentence-transformers>=2.7,<3.0",
+    "transformers>=4.41,<5.0",
 
     "pdfplumber>=0.11",
     "python-docx>=1.1",
