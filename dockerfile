@@ -5,7 +5,6 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
-# ✅ Install only required system deps
 RUN apt-get update && apt-get install -y \
     build-essential \
     poppler-utils \
@@ -16,25 +15,21 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# ✅ Upgrade pip
 RUN pip install --upgrade pip
 
-# ✅ Install CPU-only PyTorch FIRST (critical fix)
+# Install CPU torch 
 RUN pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
 
-# ✅ Copy dependency file
-COPY pyproject.toml /app/
+# COPY FULL PROJECT 
+COPY . /app/
 
-# ✅ Install project deps (without reinstalling torch)
+# Install dependencies from pyproject
 RUN pip install .
 
-# 🔥 Preload model (keeps cold start lower)
+# Preload model 
 RUN python -c "from transformers import AutoTokenizer, AutoModel; \
 AutoTokenizer.from_pretrained('sentence-transformers/all-MiniLM-L6-v2'); \
 AutoModel.from_pretrained('sentence-transformers/all-MiniLM-L6-v2')"
-
-# ✅ Copy source code
-COPY . /app/
 
 EXPOSE 8000
 
