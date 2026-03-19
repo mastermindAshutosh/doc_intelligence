@@ -4,7 +4,7 @@ import json
 from datetime import datetime
 
 # Configure API URL (Use Streamlit Secrets for deployments, fallback to local docker address)
-API_URL = st.secrets.get("API_URL", "http://backend:8000")
+API_URL = st.secrets.get("API_URL", "https://doc-intelligence-backend-bl5l.onrender.com")
 
 st.set_page_config(
     page_title="Document Intelligence Dashboard",
