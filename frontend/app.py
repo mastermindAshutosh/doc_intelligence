@@ -17,7 +17,7 @@ st.markdown("---")
 
 # Sidebar - Monitoring Metrics
 st.sidebar.title("System Health & Metrics")
-st.sidebar.markdown("[🔗 Backend API Documentation](http://localhost:8000/docs)")
+st.sidebar.markdown("[🔗 Backend API Documentation](https://doc-intelligence-backend-bl5l.onrender.com/docs)")
 st.sidebar.markdown("---")
 
 try:
