@@ -26,7 +26,7 @@ RUN pip install torch==2.2.2 --index-url https://download.pytorch.org/whl/cpu
 COPY pyproject.toml /app/
 
 # ✅ Install project deps (without reinstalling torch)
-RUN pip install . --no-deps
+RUN pip install .
 
 # 🔥 Preload model (keeps cold start lower)
 RUN python -c "from transformers import AutoTokenizer, AutoModel; \
