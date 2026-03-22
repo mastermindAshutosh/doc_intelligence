@@ -3,8 +3,6 @@ import requests
 import json
 from datetime import datetime
 
-st.write("Python version:", sys.version)
-
 # Configure API URL (Use Streamlit Secrets for deployments, fallback to local docker address)
 API_URL = st.secrets.get("API_URL", "https://doc-intelligence-backend-bl5l.onrender.com")
 
